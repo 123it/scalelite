@@ -5,9 +5,9 @@ server {
 	# https://ssl-config.mozilla.org/#server=nginx&version=1.16.1&config=intermediate&openssl=1.1.1d&guideline=5.4
 
 	listen 80 default_server;
-	listen [::]:80 default_Server;
+	listen [::]:80 default_server;
 	listen 443 ssl http2 default_server;
-	listen [::]:443 ssl http2 default_Server;
+	listen [::]:443 ssl http2 default_server;
 
 	ssl_certificate /etc/nginx/ssl/live/$URL_HOST/fullchain.pem;
 	ssl_certificate_key /etc/nginx/ssl/live/$URL_HOST/privkey.pem;
