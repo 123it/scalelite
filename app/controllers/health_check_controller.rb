@@ -11,7 +11,7 @@ class HealthCheckController < ApplicationController
       render(plain: "Health Check Failure: #{e}")
     end
 
-    render status: 200, 'success'
+    head :ok
   end
 
   private
