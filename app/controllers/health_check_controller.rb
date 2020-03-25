@@ -3,15 +3,13 @@
 class HealthCheckController < ApplicationController
   def all
     @cache_expire = 10.seconds
-
     begin
       cache_check
       database_check
     rescue StandardError => e
       render(plain: "Health Check Failure: #{e}")
     end
-
-    render(status: 200, 'success')
+    head(:ok)
   end
 
   private
