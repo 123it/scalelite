@@ -1,6 +1,8 @@
 access_log stderr combined;
 
 server {
+	server_name $URL_HOST;
+	
 	listen 80;
 	listen [::]:80;
 

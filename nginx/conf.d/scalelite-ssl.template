@@ -1,6 +1,8 @@
 access_log stderr combined;
 
 server {
+	server_name $URL_HOST;
+	
 	# generated 2020-02-14, Mozilla Guideline v5.4, nginx 1.16.1, OpenSSL 1.1.1d, intermediate configuration
 	# https://ssl-config.mozilla.org/#server=nginx&version=1.16.1&config=intermediate&openssl=1.1.1d&guideline=5.4
 
