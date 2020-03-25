@@ -18,7 +18,7 @@ class HealthCheckController < ApplicationController
 
   def cache_check
     raise 'Unable to write to cache' unless Rails.cache.write('__health_check_cache_write__', 'true', expires_in: @cache_expire)
-    raise 'Unable to read from cache' unless Rails.cache.read('__health_check_cache_write__', 'true', expires_in: @cache_expire)
+    raise 'Unable to read from cache' unless Rails.cache.read('__health_check_cache_write__') == 'true'
   end
 
   def database_check

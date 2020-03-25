@@ -1,3 +1,5 @@
+access_log stderr combined;
+
 server {
 	listen 80;
 	listen [::]:80;
