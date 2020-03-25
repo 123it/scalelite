@@ -38,3 +38,5 @@
 # SCALELITE_TAG=v1
 # SCALELITE_RECORDING_DIR=/mnt/scalelite-recordings/var/bigbluebutton
 # SCALELITE_NGINX_EXTRA_OPTS=--mount type=bind,source=/etc/letsencrypt,target=/etc/nginx/ssl,readonly
+
+# ALLOWED_HOSTS=host1,host2 or .hosts.com, if not defined URL_HOST will be used
