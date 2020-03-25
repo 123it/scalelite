@@ -11,7 +11,7 @@ class HealthCheckController < ApplicationController
       render(plain: "Health Check Failure: #{e}")
     end
 
-    render(plain: 'success')
+    render status: 200, 'success'
   end
 
   private
