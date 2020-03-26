@@ -32,10 +32,6 @@ location / {
 	proxy_set_header Upgrade $http_upgrade;
 	proxy_set_header Connection "upgrade";
 
-	if ($http_x_forwarded_proto != "https") {
-			rewrite ^(.*)$ https://$host$1 permanent;
-			break;
-	}
 	break;
 }
 
