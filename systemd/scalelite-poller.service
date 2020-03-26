@@ -5,11 +5,15 @@ Wants=network-online.target
 Before=scalelite.target
 PartOf=scalelite.target
 After=scalelite-api.service
+
 [Service]
+Environment="SCALELITE_REPO=blindsidenetwks"
+Environment="SCALELITE_TAG=v1"
 EnvironmentFile=/etc/default/scalelite
 ExecStartPre=-/usr/bin/docker kill scalelite-poller
 ExecStartPre=-/usr/bin/docker rm scalelite-poller
-ExecStartPre=/usr/bin/docker pull blindsidenetwks/scalelite:${SCALELITE_TAG}-poller
-ExecStart=/usr/bin/docker run --name scalelite-poller --env-file /etc/default/scalelite --network scalelite blindsidenetwks/scalelite:${SCALELITE_TAG}-poller
+ExecStartPre=/usr/bin/docker pull ${SCALELITE_REPO}/scalelite:${SCALELITE_TAG}-poller
+ExecStart=/usr/bin/docker run --name scalelite-poller --env-file /etc/default/scalelite --network scalelite ${SCALELITE_REPO}/scalelite:${SCALELITE_TAG}-poller
+
 [Install]
 WantedBy=scalelite.target
