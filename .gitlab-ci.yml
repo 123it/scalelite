@@ -162,10 +162,7 @@ publish_dockerhub:
 
 publish_dockerhub_all:
   extends: .publish_dockerhub
-  except:
-    refs:
-      - master
-      - tags
+  only:
     variables:
       - $PUBLISH_ARTIFACTS
 
