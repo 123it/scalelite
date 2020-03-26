@@ -77,6 +77,5 @@ FROM application AS poller
 CMD [ "bin/start-poller" ]
 
 FROM application AS api
-EXPOSE 3000
+EXPOSE 80
 CMD [ "bin/start" ]
-
