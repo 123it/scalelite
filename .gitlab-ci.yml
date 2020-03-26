@@ -166,7 +166,6 @@ publish_dockerhub_all:
     refs:
       - master
       - tags
-  only:
     variables:
       - $PUBLISH_ARTIFACTS
 
