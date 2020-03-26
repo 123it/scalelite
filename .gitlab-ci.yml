@@ -137,12 +137,8 @@ docker:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
 
-publish_dockerhub:
+.publish_dockerhub:
   extends: .dockerhub
-  only:
-    refs:
-      - master
-      - tags
   script:
     - docker pull $CI_REGISTRY_IMAGE/api:git-$CI_COMMIT_SHA
     - docker pull $CI_REGISTRY_IMAGE/poller:git-$CI_COMMIT_SHA
@@ -157,22 +153,26 @@ publish_dockerhub:
     - docker push $DOCKERHUB_IMAGE:$CI_COMMIT_REF_NAME-recording-importer
     - docker push $DOCKERHUB_IMAGE:$CI_COMMIT_REF_NAME-nginx
 
+publish_dockerhub:
+  extends: .publish_dockerhub
+  only:
+    refs:
+      - master
+      - tags
+
+publish_dockerhub_all:
+  extends: .publish_dockerhub
+  except:
+    refs:
+      - master
+      - tags
+  only:
+    variables:
+      - $PUBLISH_ARTIFACTS
+
 publish_dockerhub_latest:
-  extends: .dockerhub
+  extends: .publish_dockerhub
   only:
     refs:
       - tags
   when: manual
-  script:
-    - docker pull $CI_REGISTRY_IMAGE/api:git-$CI_COMMIT_SHA
-    - docker pull $CI_REGISTRY_IMAGE/poller:git-$CI_COMMIT_SHA
-    - docker pull $CI_REGISTRY_IMAGE/recording-importer:git-$CI_COMMIT_SHA
-    - docker pull $CI_REGISTRY_IMAGE/nginx:git-$CI_COMMIT_SHA
-    - docker tag $CI_REGISTRY_IMAGE/api:git-$CI_COMMIT_SHA $DOCKERHUB_IMAGE:latest-api
-    - docker tag $CI_REGISTRY_IMAGE/poller:git-$CI_COMMIT_SHA $DOCKERHUB_IMAGE:latest-poller
-    - docker tag $CI_REGISTRY_IMAGE/recording-importer:git-$CI_COMMIT_SHA $DOCKERHUB_IMAGE:latest-recording-importer
-    - docker tag $CI_REGISTRY_IMAGE/nginx:git-$CI_COMMIT_SHA $DOCKERHUB_IMAGE:latest-nginx
-    - docker push $DOCKERHUB_IMAGE:latest-api
-    - docker push $DOCKERHUB_IMAGE:latest-poller
-    - docker push $DOCKERHUB_IMAGE:latest-recording-importer
-    - docker push $DOCKERHUB_IMAGE:latest-nginx
