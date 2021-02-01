@@ -65,7 +65,7 @@ jobs:
         if: ${{env.CR_PAT}} != '' && success()
         uses: peter-evans/repository-dispatch@v1
         with:
-          token: ${{ secrets.CR_PAT }}
+          token: ${{env.CR_PAT}}
           repository: ${{ github.repository }}
           event-type: trigger-build
           client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
