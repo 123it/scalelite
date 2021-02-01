@@ -62,7 +62,7 @@ jobs:
       - name: Trigger Build Workflow
         env:
           CR_PAT: ${{ secrets.CR_PAT }}
-        if: ${{env.CR_PAT}} != '' && success()
+        if: ${{env.CR_PAT}} && success()
         uses: peter-evans/repository-dispatch@v1
         with:
           token: ${{env.CR_PAT}}
