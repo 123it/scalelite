@@ -60,7 +60,8 @@ jobs:
       #     bundler exec rails test:db
 
       - name: Trigger Build Workflow
-        if: ${{ secrets.CR_PAT }} && success()
+        env: cr_pat: ${{ secrets.CR_PAT }}
+        if: ${{env.cr_pat}} == 'aaa' && success()
         uses: peter-evans/repository-dispatch@v1
         with:
           token: ${{ secrets.CR_PAT }}
