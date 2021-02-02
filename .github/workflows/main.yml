@@ -59,13 +59,21 @@ jobs:
         run:  |
           bundler exec rails test:db
 
-      # - name: Trigger Build Workflow
-      #   env:
-      #     CR_PAT: ${{ secrets.CR_PAT }}
-      #   if: ${{env.CR_PAT}} && success()
-      #   uses: peter-evans/repository-dispatch@v1
-      #   with:
-      #     token: ${{env.CR_PAT}} || ''
-      #     repository: ${{ github.repository }}
-      #     event-type: trigger-build
-      #     client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
+      - name: Initialize workflow variables
+        id: vars
+        shell: bash
+        env:
+          CR_PAT: ${{ secrets.CR_PAT }}
+        run: |
+          unset HAS_CR_PAT
+          if [[ ! -z "$CR_PAT" ]]; then HAS_CR_PAT='true' ; fi
+          echo ::set-output name=HAS_CR_PAT::${HAS_CR_PAT}
+
+      - name: Trigger Build Workflow
+        if: steps.vars.outputs.HAS_CR_PAT && success()
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.CR_PAT }}
+          repository: ${{ github.repository }}
+          event-type: trigger-build
+          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
